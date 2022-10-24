@@ -5,13 +5,12 @@ const Schema = mongoose.Schema
 export const TicketSchema = new Schema(
   {
     eventId: {type: Object, required: true},
-    creatorId: {type: Object, required: true},
-    payment: {type: Boolean, required: true, default: false}
+    attendeeId: {type: Object, required: true},
   },
   { timestamps: true, toJSON: {virtuals: true}}
 )
-TicketSchema.virtual('creator', {
-  localField: 'creatorId',
+TicketSchema.virtual('attendee', {
+  localField: 'attendeeId',
   foreignField: '_id',
   justOne: true,
   ref: 'Account'
