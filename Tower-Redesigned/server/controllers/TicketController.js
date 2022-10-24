@@ -13,7 +13,7 @@ export class TicketController extends BaseController {
       .delete('/:ticketId', this.deleteTicket)
   }
 
-  async getTicketsByEventId(req, res, next) {
+  async getTicketsByEventId (req, res, next) {
     try {
       const eventId = req.params.eventId
       const tickets = await ticketService.getTicketsByEventId(eventId)
@@ -23,7 +23,7 @@ export class TicketController extends BaseController {
     }
   }
 
-  async getMyTickets(req, res, next) {
+  async getMyTickets (req, res, next) {
     try {
       const userInfo = req.userInfo
       const tickets = await ticketService.getMyTickets(userInfo)
@@ -33,7 +33,7 @@ export class TicketController extends BaseController {
     }
   }
 
-  async attendEvent(req, res, next) {
+  async attendEvent (req, res, next) {
     try {
       const eventId = req.params.eventId
       const userInfo = req.userInfo
@@ -44,7 +44,7 @@ export class TicketController extends BaseController {
     }
   }
 
-  async deleteTicket(req, res, next) {
+  async deleteTicket (req, res, next) {
     try {
       const ticketId = req.params.ticketId
       const userInfo = req.userInfo
