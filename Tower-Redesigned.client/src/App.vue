@@ -4,11 +4,9 @@
   </header>
   <main>
     <router-view />
+    <Profile-Edit-Offcanvas/>
   </main>
   <footer>
-    <div class="bg-dark text-light text-center p-4">
-      Made with 💖 by CodeWorks
-    </div>
   </footer>
 </template>
 

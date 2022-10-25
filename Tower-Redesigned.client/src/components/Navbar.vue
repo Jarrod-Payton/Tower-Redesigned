@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
+        <img alt="logo" src="../assets/img/crown-icon.jpg" height="45" width="45" @click="editProfile()" />
       </div>
     </router-link>
     <button
@@ -24,19 +24,33 @@
           </router-link>
         </li>
       </ul>
-      <!-- LOGIN COMPONENT HERE -->
-      <Login />
     </div>
   </nav>
 </template>
 
 <script>
-import Login from './Login.vue'
+import { AuthService } from "../services/AuthService";
+import { AppState } from "../AppState";
+import { computed } from "vue";
+import { Offcanvas } from "bootstrap";
 export default {
   setup() {
-    return {}
-  },
-  components: { Login }
+    return {
+      user: computed(() => AppState.user),
+      account: computed(() => AppState.account),
+      editProfile() {
+        Offcanvas.getOrCreateInstance(
+          document.getElementById("EditProfileOffCanvas")
+        ).toggle();
+      },
+      async login() {
+        AuthService.loginWithPopup();
+      },
+      async logout() {
+        AuthService.logout({ returnTo: window.location.origin });
+      },
+    }
+  }
 }
 </script>
 
