@@ -24,7 +24,7 @@ export default {
 <style scoped lang="scss">
 .home {
   display: grid;
-  height: 100vh;
+  height: 80vh;
   place-content: center;
   text-align: center;
   user-select: none;
