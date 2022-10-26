@@ -1,8 +1,8 @@
 <template>
   <header>
-    <Navbar />
   </header>
   <main>
+    <Navbar />
     <router-view />
     <Profile-Edit-Offcanvas/>
   </main>
@@ -26,4 +26,7 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
+main {
+    background-image: linear-gradient(to bottom right, #D9841D, #DC5F55, #BA527C);
+}
 </style>

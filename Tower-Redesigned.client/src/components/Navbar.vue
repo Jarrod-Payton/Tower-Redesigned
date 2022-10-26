@@ -1,10 +1,32 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+  <nav class="navbar navbar-expand-lg bg-transparent px-2">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/crown-icon.jpg" height="45" width="45" @click="editProfile()" />
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <img alt="logo" src="../assets/img/crown-icon.jpg" height="50" width="50" @click="editProfile()" />
       </div>
     </router-link>
+    <div class="collapse navbar-collapse" id="navbarText"></div>
+    <span class="navbar-text pe-3">
+      <button
+        class="btn btn-outline-warning text-shadow selectable text-success lighten-30 text-uppercase my-2 my-lg-0"
+        @click="login"
+        v-if="!user.isAuthenticated"
+      >
+        Login
+      </button>
+      <div class="dropdown my-2 my-lg-0 dropstart" v-else>
+        <div class="selectable rounded elevation-2" @click="editProfile">
+          <img
+            :src="account.picture"
+            alt="user photo"
+            class="rounded profile-pic"
+          />
+          <!-- <span class="mx-3 text-success lighten-30 text-shadow">
+            {{ account.name }}
+          </span> -->
+        </div>
+      </div>
+    </span>
     <button
       class="navbar-toggler"
       type="button"
@@ -14,17 +36,8 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon" />
     </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link>
-        </li>
-      </ul>
-    </div>
   </nav>
 </template>
 
@@ -55,6 +68,11 @@ export default {
 </script>
 
 <style scoped>
+.profile-pic {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
 a:hover {
   text-decoration: none;
 }
@@ -63,9 +81,13 @@ a:hover {
   text-transform: uppercase;
 }
 
-.navbar-nav .router-link-exact-active {
+.hoverable:hover {
   border-bottom: 2px solid var(--bs-success);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.navbar {
+  height: 5vh;
 }
 </style>

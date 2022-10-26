@@ -1,8 +1,8 @@
 $themes: (
   default: (
-    "body-bg": #e5e5e5,
-    "primary": #3ba5dc,
-    "secondary": #8392ab,
+    "body-bg": #2c2c2c,
+    "primary": #d9841d,
+    "secondary": #DC5F55,
     "success": #00f867,
     "info": #5d0149,
     "warning": #fbcf33,
@@ -12,7 +12,7 @@ $themes: (
     "grey": #cbcbcb,
   ),
   dark: (
-    "body-bg": #090f18,
+    "body-bg": #2c2c2c,
     "primary": #89e5b0,
     "secondary": #fff9a4,
     "success": #00f867,
@@ -40,6 +40,7 @@ $color-ranges: (
 $font-sans-serif: Open Sans;
 $font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 $gradient: linear-gradient(180deg, hsla(0, 0%, 100%, 0.15), hsla(0, 0%, 100%, 0));
+
 
 
 $modal-fade-transform: rotate(25deg) scale(.2);
