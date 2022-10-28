@@ -21,23 +21,9 @@
             alt="user photo"
             class="rounded profile-pic"
           />
-          <!-- <span class="mx-3 text-success lighten-30 text-shadow">
-            {{ account.name }}
-          </span> -->
         </div>
       </div>
     </span>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarText"
-      aria-controls="navbarText"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon" />
-    </button>
   </nav>
 </template>
 
