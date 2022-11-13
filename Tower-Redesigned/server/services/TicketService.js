@@ -28,7 +28,8 @@ class TicketService {
       eventId: eventId
     }
     const newTicket = await dbContext.Ticket.create(ticket)
-    return newTicket
+    const foundNew = await dbContext.Ticket.findById(newTicket._id).populate({path: 'attendee'}).populate({path: 'event', populate: 'creator'})
+    return foundNew
   }
 
   async deleteTicket(ticketId, userInfo) {

@@ -11,10 +11,10 @@ export const AppState = reactive({
   account: {},
   /** @type {Event[]} */
   events: [],
+  /** @type {Event} */
+  openedEvent: {},
   /** @type {Comment[]} */
   comments: [],
   /** @type {Ticket[]} */
-  tickets: [],
-  /** @type {Event} */
-  openedEvent: {}
+  tickets: []
 })

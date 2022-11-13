@@ -1,7 +1,9 @@
 import { AppState } from "../AppState"
+import { Event } from "../models/Event"
 import { Ticket } from "../models/Ticket"
 import Pop from "../utils/Pop"
 import { api } from "./AxiosService"
+import { eventService } from "./EventService"
 
 class TicketService {
 
@@ -15,37 +17,34 @@ class TicketService {
     const res = await api.get(`ticket`)
     const tickets = await this._convertTicketsToModels(res.data, true)
     AppState.tickets = tickets
+    tickets.forEach(ticket => {
+      AppState.events.push(new Event(ticket.event))
+    })
   }
 
   async changeAttendance(eventId, attending) {
     if (attending) {
-      await api.delete(`ticket/${eventId}`)
-      await this._eraseFromAppState(eventId)
+      const existingTicket = await this._findInAppState(eventId, AppState.account.id)
+      await api.delete(`ticket/${existingTicket.id}`)
+      AppState.tickets = AppState.tickets.filter(ticket => ticket.attendeeId !== AppState.account.id)
+      Pop.toast('No Longer Attending This Event!')
     } else {
       const res = await api.post(`ticket/${eventId}`)
       const ticket = await this._convertTicketsToModels(res.data)
-      AppState.tickets.unshift(ticket)
+      AppState.tickets.push(ticket)
       Pop.toast('Attending!')
     }
   }
 
 
-  async _findInAppState(ticketId) {
+  async _findInAppState(eventId, accountId) {
     let found = {}
     for (const ticket of AppState.tickets) {
-      if (ticket.id === ticketId) {
+      if ((ticket.eventId == eventId) && (ticket.attendeeId == accountId)) {
         found = ticket
       }
     }
     return found
-  }
-
-  async _eraseFromAppState(ticketId) {
-    AppState.tickets = AppState.tickets.forEach(ticket => {
-      if (ticket.id !== ticketId) {
-        return ticket
-      }
-    })
   }
 
   async _convertTicketsToModels(ticket, isArray = false) {
@@ -57,7 +56,7 @@ class TicketService {
         returned.push(newTicket)
       }
     } else {
-      returned = new Ticket({ticket})
+      returned = new Ticket({...ticket})
     }
     return returned
   }

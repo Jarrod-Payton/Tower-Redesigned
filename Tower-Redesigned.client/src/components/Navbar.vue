@@ -2,7 +2,12 @@
   <nav class="navbar navbar-expand-lg bg-transparent px-2">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center justify-content-center">
-        <img alt="logo" src="../assets/img/crown-icon.jpg" height="50" width="50" @click="editProfile()" />
+        <img
+          alt="logo"
+          src="../assets/img/crown-icon.jpg"
+          height="50"
+          width="50"
+        />
       </div>
     </router-link>
     <div class="collapse navbar-collapse" id="navbarText"></div>
@@ -48,9 +53,9 @@ export default {
       async logout() {
         AuthService.logout({ returnTo: window.location.origin });
       },
-    }
-  }
-}
+    };
+  },
+};
 </script>
 
 <style scoped>

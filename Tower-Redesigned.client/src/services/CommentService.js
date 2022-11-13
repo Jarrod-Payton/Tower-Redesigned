@@ -17,33 +17,34 @@ class CommentService {
   }
 
   async createComment(comment) {
-    const res = await api.post(`comment`, comment)
+    const res = await api.post(`comment/${AppState.openedEvent.id}`, comment)
     const newComment = await this._convertToModels(res.data)
+    console.log(newComment)
     AppState.comments.push(newComment)
   }
 
   async editComment(commentId, comment) {
     const res = await api.put(`comment/${commentId}`, comment)
     const newComment = await this._convertToModels(res.data)
-    await this._updateAppStateArray(commentId, newComment)
+    await this.replaceComment(commentId, newComment)
   }
 
   async deleteComment(commentId) {
     await api.delete(`comment/${commentId}`)
-    await this._updateAppStateArray(commentId, null, true)
+    AppState.comments = AppState.comments.filter(comment => comment.id !== commentId)
     Pop.toast('Success')
   }
 
-  async _updateAppStateArray(commentId, updatedComment, erase = false) {
-    AppState.comments = await AppState.comments.forEach(comment => {
+  async replaceComment(commentId, newComment) {
+    let newAppState = []
+    AppState.comments.forEach(comment => {
       if (comment.id === commentId) {
-        if (!erase) {
-          return updatedComment
-        }
+        newAppState.push(newComment)
       } else {
-        return comment
+        newAppState.push(comment)
       }
     })
+    AppState.comments = newAppState
   }
 
   async _convertToModels(comment, isArray = false) {

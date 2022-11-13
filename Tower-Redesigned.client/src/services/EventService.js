@@ -1,5 +1,6 @@
 import { AppState } from "../AppState"
 import { Event } from "../models/Event";
+import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { api } from "./AxiosService"
 
@@ -18,9 +19,13 @@ class EventService {
   }
 
   async getEventById(id) {
-    const res = await api.get(`event/${id}`)
-    const event = await this._convertEventsToModels(res.data)
-    AppState.openedEvent = event
+    try {
+      const res = await api.get(`event/${id}`)
+      const event = await this._convertEventsToModels(res.data)
+      AppState.openedEvent = event
+    } catch (error) {
+      logger.error(erorr, 'error')
+    }
   }
 
   async createEvent(event) {

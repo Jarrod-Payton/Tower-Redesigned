@@ -1,4 +1,3 @@
-
 {
   "folders": [
     {
@@ -39,7 +38,7 @@
       "*.vue": "vue"
     },
     "[vue]": {
-      "editor.defaultFormatter": "Vue.volar"
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
   }
 }
