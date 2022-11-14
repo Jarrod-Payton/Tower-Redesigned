@@ -36,7 +36,24 @@ select {
   }
 }
 
+.scrollbar {
+  overflow-y: scroll;
+  height: 92vh;
+}
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--bs-info);
+  padding-right: 100px;
+  border-radius: 7px;
+}
+
 form:invalid button[type="submit"] {
   filter: grayscale(1);
   pointer-events: none;
+}
+
+.color-primary {
+  color: $primary;
 }

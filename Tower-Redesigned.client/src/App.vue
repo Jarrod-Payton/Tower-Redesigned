@@ -1,32 +1,48 @@
 <template>
-  <header>
-  </header>
+  <header></header>
   <main>
     <Navbar />
-    <router-view />
-    <Profile-Edit-Offcanvas/>
+    <div class="row m-0 scrollbar">
+      <router-view />
+    </div>
+    <Profile-Edit-Offcanvas />
   </main>
-  <footer>
-  </footer>
+  <footer></footer>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { AppState } from './AppState'
-import Navbar from './components/Navbar.vue'
+import { computed } from "vue";
+import { AppState } from "./AppState";
+import Navbar from "./components/Navbar.vue";
 
 export default {
   setup() {
     return {
-      appState: computed(() => AppState)
-    }
+      appState: computed(() => AppState),
+    };
   },
-  components: { Navbar }
-}
+  components: { Navbar },
+};
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
 main {
-    background-image: linear-gradient(to bottom right, #D9841D, #DC5F55, #BA527C);
+  background-image: linear-gradient(to bottom right, #d9841d, #dc5f55, #ba527c);
+}
+.scrollbar {
+  overflow-y: scroll;
+  height: 95vh;
+}
+.scrollbar::-webkit-scrollbar {
+  width: 7px;
+}
+.scrollbar::-webkit-scrollbar-track {
+  background: #2e2e2ebd;
+  width: 7px;
+  border-radius: 7px;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #adadad;
+  border-radius: 7px;
 }
 </style>
