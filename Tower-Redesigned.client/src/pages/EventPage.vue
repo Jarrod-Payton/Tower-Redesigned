@@ -4,17 +4,31 @@
       <div class="card-body">
         <div class="row">
           <div class="col-12">
-            <div class="title">
-              {{ Event.name }}
-              {{ Event.type }}
-              {{ Event.startDate ? Event.startDate : "No Start Date Set" }}
+            <div class="title p-3">
+              <h1 class="event-name">
+                {{ Event.name }}
+              </h1>
+              <h2 class="event-date">
+                {{ Event.startDate ? Event.startDate : "No Start Date Set" }}
+              </h2>
             </div>
             <div class="body">
               <div class="cover-img">
                 <img :src="Event.coverImg" alt="" />
               </div>
               <div class="info">
-                {{ Event.description }}
+                <h1 class="form-control">
+                  {{ Event.description }}
+                </h1>
+                <h1>
+                  {{ Event.capacity }}
+                </h1>
+                <h1>
+                  {{ Event.location }}
+                </h1>
+                <h1>
+                  {{ Event.type }}
+                </h1>
               </div>
             </div>
             <div class="tickets">
@@ -26,14 +40,15 @@
                 >
                   <img
                     :src="ticket.attendee.picture"
+                    :title="ticket.attendee.email"
                     class="profile-pic"
-                    alt=""
+                    alt="Profile Picture"
                   />
                 </div>
               </div>
               <div class="attend-btn">
-                <button class="btn btn-dark" @click="changeAttendance()">
-                  {{ attending }}
+                <button class="btn btn-primary" @click="changeAttendance()">
+                  {{ Attending ? "Attending Event!" : "You are not Attending" }}
                 </button>
               </div>
             </div>
@@ -41,7 +56,7 @@
         </div>
       </div>
     </div>
-    <div class="comments">
+    <div class="comments mx-3">
       <div class="row m-0">
         <div class="col-12">
           <div class="create-comment">
@@ -75,23 +90,13 @@ import { logger } from "../utils/Logger";
 export default {
   setup() {
     const route = useRoute();
-    const attending = ref(false);
     const commentForm = reactive({ editable: {} });
     onMounted(async () => {
       await eventService.getEventById(route.params.eventId);
       await commentService.getAllComments(route.params.eventId);
       await ticketService.getEventsTickets(route.params.eventId);
     });
-    watchEffect(async () => {
-      AppState.tickets.forEach((ticket) => {
-        if (ticket.attendeeId == AppState.account.id) {
-          attending.value = true;
-          return;
-        }
-      });
-    });
     return {
-      attending,
       commentForm,
       async createComment() {
         try {
@@ -102,11 +107,7 @@ export default {
       },
       async changeAttendance() {
         try {
-          await ticketService.changeAttendance(
-            AppState.openedEvent.id,
-            attending.value
-          );
-          attending.value = !attending.value;
+          await ticketService.changeAttendance(AppState.openedEvent.id);
         } catch (error) {
           logger.error(error, "error");
         }
@@ -114,6 +115,7 @@ export default {
       Event: computed(() => AppState.openedEvent),
       Comments: computed(() => AppState.comments),
       Tickets: computed(() => AppState.tickets),
+      Attending: computed(() => AppState.attendingOpenedEvent),
     };
   },
 };
@@ -121,21 +123,27 @@ export default {
 <style scoped lang="scss">
 .card {
   .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    font-size: 34px;
+    .event-name {
+      font-size: 34px;
+    }
+    .event-date {
+      font-size: 18px;
+    }
   }
   .body {
     display: flex;
     .cover-img {
-      width: 50%;
       margin-top: 10px;
       img {
-        border-radius: 1%;
         max-width: 100%;
+        float: left;
+        padding: 0px 10px;
+        border-radius: 1%;
       }
-    }
-    .info {
-      width: 50%;
     }
   }
   .tickets {
@@ -150,8 +158,8 @@ export default {
         margin: 5px 0;
         text-align: center;
         .profile-pic {
-          width: 50px;
-          height: 50px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
         }
       }

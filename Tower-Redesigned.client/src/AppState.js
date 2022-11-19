@@ -16,5 +16,7 @@ export const AppState = reactive({
   /** @type {Comment[]} */
   comments: [],
   /** @type {Ticket[]} */
-  tickets: []
+  tickets: [],
+  /** @type {Boolean} */
+  attendingOpenedEvent: false
 })

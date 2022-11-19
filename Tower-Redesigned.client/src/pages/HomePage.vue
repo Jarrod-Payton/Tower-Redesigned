@@ -43,89 +43,18 @@
         </div>
       </div>
       <div class="row mx-5">
-        <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
-          v-for="e in Events"
-          :key="e.id"
-        >
-          <Event-Tab :event="e" />
-        </div>
-        <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
-          v-for="e in Events"
-          :key="e.id"
-        >
-          <Event-Tab :event="e" />
-        </div>
-        <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
-          v-for="e in Events"
-          :key="e.id"
-        >
-          <Event-Tab :event="e" />
-        </div>
-        <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
-          v-for="e in Events"
-          :key="e.id"
-        >
-          <Event-Tab :event="e" />
-        </div>
-        <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
-          v-for="e in Events"
-          :key="e.id"
-        >
-          <Event-Tab :event="e" />
-        </div>
-        <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
-          v-for="e in Events"
-          :key="e.id"
-        >
-          <Event-Tab :event="e" />
-        </div>
-        <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
-          v-for="e in Events"
-          :key="e.id"
-        >
-          <Event-Tab :event="e" />
-        </div>
-        <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
-          v-for="e in Events"
-          :key="e.id"
-        >
-          <Event-Tab :event="e" />
-        </div>
-        <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
-          v-for="e in Events"
-          :key="e.id"
-        >
-          <Event-Tab :event="e" />
-        </div>
-        <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
-          v-for="e in Events"
-          :key="e.id"
-        >
-          <Event-Tab :event="e" />
-        </div>
-        <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
-          v-for="e in Events"
-          :key="e.id"
-        >
-          <Event-Tab :event="e" />
-        </div>
-        <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
-          v-for="e in Events"
-          :key="e.id"
-        >
-          <Event-Tab :event="e" />
+        <!-- Create Event Button -->
+        <div class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3" v-if="account.id">
+          <div class="row h-100">
+            <div class="col-12 h-100">
+              <div
+                class="tab-card h-100 bg-dark text-primary"
+                @click="create()"
+              >
+                <div class="text-card">+</div>
+              </div>
+            </div>
+          </div>
         </div>
         <div
           class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
@@ -146,6 +75,7 @@ import { resetService } from "../services/ResetService";
 import { computed, onMounted, watchEffect } from "@vue/runtime-core";
 import { AppState } from "../AppState";
 import { logger } from "../utils/Logger";
+import { modalService } from "../services/ModalService";
 export default {
   setup() {
     const filters = ref(["Concert", "Convention", "Sport", "Digital"]);
@@ -175,6 +105,14 @@ export default {
           logger.error(error, "error");
         }
       },
+      async create() {
+        try {
+          modalService.toggleCreateModal();
+        } catch (error) {
+          logger.error(error, "error");
+        }
+      },
+      account: computed(() => AppState.account),
     };
   },
 };
@@ -186,5 +124,32 @@ export default {
 }
 .filter-btn {
   outline: none;
+}
+.tab-card {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: block;
+  color: rgb(230, 230, 230);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.text-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100% !important;
+  background: rgba(128, 128, 128, 0.122);
+  font-size: 100px;
+  text-align: center;
+  border-radius: 5px;
+}
+.text-card:after {
+  content: "";
+  width: 1px;
+  height: 100%;
+  vertical-align: middle;
+  display: inline-block;
 }
 </style>

@@ -1,20 +1,14 @@
 <template>
   <div class="comment">
-    <div class="row">
-      <div class="col-8">
-        <div class="card p-2 m-2">
-          {{ comment.body }}
-        </div>
-      </div>
-      <div class="col-4">
-        <img
-          class="profile-pic"
-          :src="comment.creator.picture"
-          alt="Profile Picture"
-          @click="deleteComment()"
-        />
-      </div>
+    <div class="card p-2 m-2">
+      {{ comment.body }}
     </div>
+    <img
+      class="profile-pic"
+      :src="comment.creator.picture"
+      alt="Profile Picture"
+      @click="deleteComment()"
+    />
   </div>
 </template>
 <script>

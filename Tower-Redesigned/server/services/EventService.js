@@ -30,6 +30,9 @@ class EventService {
   }
 
   async createEvent(userInfo, event) {
+    if (!event.coverImg) {
+      delete event.coverImg
+    }
     if (event.startDate < Date.now()) {
       throw new BadRequest('Event Scheduled in the past')
     }

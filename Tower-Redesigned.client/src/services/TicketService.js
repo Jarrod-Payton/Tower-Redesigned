@@ -11,6 +11,7 @@ class TicketService {
     const res = await api.get(`ticket/${eventId}`)
     const tickets = await this._convertTicketsToModels(res.data, true)
     AppState.tickets = tickets
+    await this._checkAttendance()
   }
 
   async getMyTickets() {
@@ -22,7 +23,8 @@ class TicketService {
     })
   }
 
-  async changeAttendance(eventId, attending) {
+  async changeAttendance(eventId) {
+    let attending = AppState.attendingOpenedEvent
     if (attending) {
       const existingTicket = await this._findInAppState(eventId, AppState.account.id)
       await api.delete(`ticket/${existingTicket.id}`)
@@ -34,11 +36,22 @@ class TicketService {
       AppState.tickets.push(ticket)
       Pop.toast('Attending!')
     }
+    AppState.attendingOpenedEvent = !attending
   }
 
+  async _checkAttendance() {
+    const userId = AppState.account.id
+    const eventId = AppState.openedEvent.id
+    const found = await this._findInAppState(eventId, userId)
+    if (!!found) {
+      AppState.attendingOpenedEvent = true
+    } else {
+      AppState.attendingOpenedEvent = false
+    }
+  }
 
   async _findInAppState(eventId, accountId) {
-    let found = {}
+    let found = null
     for (const ticket of AppState.tickets) {
       if ((ticket.eventId == eventId) && (ticket.attendeeId == accountId)) {
         found = ticket

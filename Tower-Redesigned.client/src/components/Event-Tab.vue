@@ -1,27 +1,25 @@
 <template>
-  <div class="row">
-    <div class="col-12">
-      <router-link
-        :to="{ name: 'Event', params: { eventId: event.id } }"
-        class="w-100"
-      >
-        <div class="tab-card">
-          <img :src="event.coverImg" alt="Event Image" />
-          <div class="text-card">
-            <span>
-              <h4 class="event-name">
-                {{ event.name }}
-              </h4>
-              <h4 class="event-description">
-                {{ event.description }}
-              </h4>
-            </span>
-            <div class="bottom bg-danger">Event Cancelled</div>
-          </div>
+  <router-link
+    :to="{ name: 'Event', params: { eventId: event.id } }"
+    class="w-100 set-200-200"
+  >
+    <div class="tab-card">
+      <img :src="event.coverImg" alt="Event Image" />
+      <div class="text-card">
+        <span>
+          <h4 class="event-name">
+            {{ event.name }}
+          </h4>
+          <h4 class="event-description">
+            {{ event.description }}
+          </h4>
+        </span>
+        <div class="bottom bg-danger" v-if="event.isCancelled">
+          Event Cancelled
         </div>
-      </router-link>
+      </div>
     </div>
-  </div>
+  </router-link>
 </template>
 <script>
 import { Event } from "../models/Event";
@@ -33,12 +31,19 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.set-200-200 {
+  width: 200px;
+  height: 200px;
+}
 .tab-card {
+  height: 100%;
+  width: 100%;
   position: relative;
   img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
+    border-radius: 5px;
   }
 }
 .text-card {
@@ -49,6 +54,7 @@ export default {
   height: 100%;
   background: rgba(128, 128, 128, 0.361);
   text-align: center;
+  border-radius: 5px;
 }
 .text-card:after {
   content: "";
@@ -58,6 +64,7 @@ export default {
   display: inline-block;
 }
 .text-card span {
+  max-width: 90%;
   display: inline-block;
   vertical-align: middle;
 }

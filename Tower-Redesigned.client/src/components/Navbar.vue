@@ -34,18 +34,16 @@
 
 <script>
 import { AuthService } from "../services/AuthService";
+import { modalService } from "../services/ModalService";
 import { AppState } from "../AppState";
 import { computed } from "vue";
-import { Offcanvas } from "bootstrap";
 export default {
   setup() {
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
       editProfile() {
-        Offcanvas.getOrCreateInstance(
-          document.getElementById("EditProfileOffCanvas")
-        ).toggle();
+        modalService.toggleEditProfileOffCanvas();
       },
       async login() {
         AuthService.loginWithPopup();
