@@ -43,19 +43,6 @@
         </div>
       </div>
       <div class="row mx-5">
-        <!-- Create Event Button -->
-        <div class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3" v-if="account.id">
-          <div class="row h-100">
-            <div class="col-12 h-100">
-              <div
-                class="tab-card h-100 bg-dark text-primary"
-                @click="create()"
-              >
-                <div class="text-card">+</div>
-              </div>
-            </div>
-          </div>
-        </div>
         <div
           class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
           v-for="e in Events"
@@ -105,14 +92,6 @@ export default {
           logger.error(error, "error");
         }
       },
-      async create() {
-        try {
-          modalService.toggleCreateModal();
-        } catch (error) {
-          logger.error(error, "error");
-        }
-      },
-      account: computed(() => AppState.account),
     };
   },
 };
