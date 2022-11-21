@@ -1,5 +1,5 @@
 <template>
-  <div class="event-page">
+  <div class="event-page" v-if="!Loading">
     <div class="card bg-dark m-4">
       <div class="card-body">
         <div class="row">
@@ -72,6 +72,7 @@
       </div>
     </div>
   </div>
+  <Loading v-else />
 </template>
 <script>
 import {
@@ -85,16 +86,20 @@ import { eventService } from "../services/EventService";
 import { useRoute } from "vue-router";
 import { commentService } from "../services/CommentService";
 import { ticketService } from "../services/TicketService";
+import { loadingService } from "../services/LoadingService";
 import { AppState } from "../AppState";
 import { logger } from "../utils/Logger";
 export default {
   setup() {
+    document.title = "Tower | Event";
     const route = useRoute();
     const commentForm = reactive({ editable: {} });
     onMounted(async () => {
+      loadingService.startLoading();
       await eventService.getEventById(route.params.eventId);
       await commentService.getAllComments(route.params.eventId);
       await ticketService.getEventsTickets(route.params.eventId);
+      loadingService.stopLoading();
     });
     return {
       commentForm,
@@ -116,6 +121,7 @@ export default {
       Comments: computed(() => AppState.comments),
       Tickets: computed(() => AppState.tickets),
       Attending: computed(() => AppState.attendingOpenedEvent),
+      Loading: computed(() => AppState.loading),
     };
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="about" v-if="!Loading">
     <div class="profile text-center">
       <h1>Welcome {{ Account.name }}</h1>
       <img
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div
-          class="col-6 col-sm-4 col-md-3 col-xxl-2"
+          class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
           v-for="e in Events"
           :key="e.id"
         >
@@ -40,12 +40,13 @@
             :to="{ name: 'Event', params: { eventId: comment.eventId } }"
             class="w-100"
           >
-            <div class="card">{{ comment.body }}</div>
+            <Comment-Card :comment="comment" />
           </router-link>
         </div>
       </div>
     </div>
   </div>
+  <Loading v-else />
 </template>
 
 <script>
@@ -54,12 +55,16 @@ import { AppState } from "../AppState";
 import { resetService } from "../services/ResetService";
 import { ticketService } from "../services/TicketService";
 import { commentService } from "../services/CommentService";
+import { loadingService } from "../services/LoadingService";
 export default {
   setup() {
+    document.title = "Tower | Account Page";
     onMounted(async () => {
+      loadingService.startLoading();
       await resetService.resetAll();
       await ticketService.getMyTickets();
       await commentService.getMyComments();
+      loadingService.stopLoading();
     });
     return {
       async create() {
@@ -72,6 +77,7 @@ export default {
       Events: computed(() => AppState.events),
       Account: computed(() => AppState.account),
       Comments: computed(() => AppState.comments),
+      Loading: computed(() => AppState.loading),
     };
   },
 };

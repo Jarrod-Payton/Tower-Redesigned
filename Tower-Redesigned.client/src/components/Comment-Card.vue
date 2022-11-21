@@ -1,6 +1,6 @@
 <template>
   <div class="comment">
-    <div class="card p-2 m-2">
+    <div class="card p-2 m-2 bg-dark">
       {{ comment.body }}
     </div>
     <img

@@ -18,5 +18,7 @@ export const AppState = reactive({
   /** @type {Ticket[]} */
   tickets: [],
   /** @type {Boolean} */
-  attendingOpenedEvent: false
+  attendingOpenedEvent: false,
+  /** @type {Boolean} */
+  loading: false
 })

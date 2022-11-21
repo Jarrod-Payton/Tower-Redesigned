@@ -19,13 +19,9 @@ class EventService {
   }
 
   async getEventById(id) {
-    try {
       const res = await api.get(`event/${id}`)
       const event = await this._convertEventsToModels(res.data)
       AppState.openedEvent = event
-    } catch (error) {
-      logger.error(erorr, 'error')
-    }
   }
 
   async createEvent(event) {

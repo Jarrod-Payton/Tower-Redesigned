@@ -1,5 +1,5 @@
 <template>
-  <div class="home-page">
+  <div class="home-page" v-if="!Loading">
     <div class="col-12">
       <div class="note">
         <div class="row">
@@ -53,6 +53,7 @@
       </div>
     </div>
   </div>
+  <Loading v-else />
 </template>
 
 <script>
@@ -62,15 +63,18 @@ import { resetService } from "../services/ResetService";
 import { computed, onMounted, watchEffect } from "@vue/runtime-core";
 import { AppState } from "../AppState";
 import { logger } from "../utils/Logger";
-import { modalService } from "../services/ModalService";
+import { loadingService } from "../services/LoadingService";
 export default {
   setup() {
+    document.title = "Tower | Home";
     const filters = ref(["Concert", "Convention", "Sport", "Digital"]);
     const Events = ref([]);
     const activeFilter = ref("");
     onMounted(async () => {
+      loadingService.startLoading();
       await resetService.resetAll();
       await eventService.getAllEvents();
+      loadingService.stopLoading();
     });
     watchEffect(async () => {
       let events = AppState.events;
@@ -92,6 +96,7 @@ export default {
           logger.error(error, "error");
         }
       },
+      Loading: computed(() => AppState.loading),
     };
   },
 };
