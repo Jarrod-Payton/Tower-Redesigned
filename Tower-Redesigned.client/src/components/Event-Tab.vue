@@ -1,7 +1,7 @@
 <template>
   <router-link
     :to="{ name: 'Event', params: { eventId: event.id } }"
-    class="w-100 set-200-200"
+    class="w-100 set-200-200 fade-in"
   >
     <div class="tab-card">
       <img :src="event.coverImg" alt="Event Image" />
@@ -84,5 +84,18 @@ export default {
   border-radius: 5px;
   font-size: 22px;
   color: white;
+}
+.fade-in {
+  animation: fadeInAnimation ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>

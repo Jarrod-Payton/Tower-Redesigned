@@ -63,22 +63,23 @@
     <div class="comments mx-3">
       <div class="row m-0">
         <div class="col-12">
-          <div class="create-comment">
+          <div class="create-comment card bg-dark p-3">
             <textarea
               type="text"
-              class="form-control"
+              class="form-control bg-dark"
               v-model="commentForm.editable.body"
             />
             <button
-              class="submit-btn btn btn-primary w-100"
+              class="submit-btn btn btn-secondary w-100 mt-2"
               @click="createComment()"
+              :disabled="!commentForm.editable.body"
             >
               Post
             </button>
           </div>
         </div>
-        <div class="col-12 mt-3" v-for="comment in Comments" :key="comment._id">
-          <Comment-Card :comment="comment" />
+        <div class="col-12" v-for="comment in Comments" :key="comment._id">
+          <Comment-Card :comment="comment" @click="deleteComment()" />
         </div>
       </div>
     </div>
@@ -86,13 +87,7 @@
   <Loading v-else />
 </template>
 <script>
-import {
-  computed,
-  onMounted,
-  reactive,
-  ref,
-  watchEffect,
-} from "@vue/runtime-core";
+import { computed, onMounted, reactive } from "@vue/runtime-core";
 import { eventService } from "../services/EventService";
 import { useRoute } from "vue-router";
 import { commentService } from "../services/CommentService";
@@ -100,6 +95,7 @@ import { ticketService } from "../services/TicketService";
 import { loadingService } from "../services/LoadingService";
 import { AppState } from "../AppState";
 import { logger } from "../utils/Logger";
+import Pop from "../utils/Pop";
 export default {
   setup() {
     document.title = "Tower | Event";
@@ -124,6 +120,19 @@ export default {
       async changeAttendance() {
         try {
           await ticketService.changeAttendance(AppState.openedEvent.id);
+        } catch (error) {
+          logger.error(error, "error");
+        }
+      },
+      async deleteComment() {
+        try {
+          if (
+            await Pop.confirm("Are you sure you want to delete your comment?")
+          ) {
+            await commentService.deleteComment(props.comment.id);
+          } else {
+            return;
+          }
         } catch (error) {
           logger.error(error, "error");
         }
@@ -193,8 +202,14 @@ export default {
 .comments {
   margin-top: 20px;
   .create-comment {
+    border-radius: 20px;
+    border-color: white;
+    border-width: 2px;
     textarea {
+      color: white;
       border-radius: 10px;
+      border-color: transparent;
+      border-width: 2px;
       resize: none;
       height: 10vh;
       width: 100%;

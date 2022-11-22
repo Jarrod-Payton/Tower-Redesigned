@@ -1,11 +1,10 @@
 <template>
-  <div class="comment">
+  <div class="comment slide-in">
     <div class="card bg-dark comment-card">
       <img
         class="profile-pic"
         :src="comment.creator.picture"
         alt="Profile Picture"
-        @click="deleteComment()"
       />
       <p class="comment-text">
         {{ comment.body }}
@@ -15,33 +14,17 @@
 </template>
 <script>
 import { Comment } from "../models/Comment";
-import { commentService } from "../services/CommentService";
-import { logger } from "../utils/Logger";
-import Pop from "../utils/Pop";
 export default {
   props: { comment: { type: Comment, required: true } },
   setup(props) {
-    return {
-      async deleteComment() {
-        try {
-          if (
-            await Pop.confirm("Are you sure you want to delete your comment?")
-          ) {
-            await commentService.deleteComment(props.comment.id);
-          } else {
-            return;
-          }
-        } catch (error) {
-          logger.error(error, "error");
-        }
-      },
-    };
+    return {};
   },
 };
 </script>
 <style scoped lang="scss">
 .comment {
   margin: 5px;
+  cursor: pointer;
   .comment-card {
     border-radius: 50px;
     padding: 10px;
@@ -62,5 +45,17 @@ export default {
       border-radius: 50%;
     }
   }
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.slide-in {
+  animation: 0.5s ease-out 0s 1 slideInLeft;
 }
 </style>
