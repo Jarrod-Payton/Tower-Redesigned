@@ -4,7 +4,7 @@
       <div class="note">
         <div class="row">
           <div class="col-12">
-            <div class="card bg-dark m-5">
+            <div class="card bg-dark m-5 fade-in">
               <div class="note-text text-center px-4 pt-4 color-primary">
                 Welcome to Tower, This is a place where you can host and attend
                 events!

@@ -85,17 +85,4 @@ export default {
   font-size: 22px;
   color: white;
 }
-.fade-in {
-  animation: fadeInAnimation ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-@keyframes fadeInAnimation {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 </style>

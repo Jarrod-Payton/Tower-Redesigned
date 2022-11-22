@@ -1,6 +1,6 @@
 <template>
   <div class="event-page" v-if="!Loading">
-    <div class="card bg-dark m-4">
+    <div class="card bg-dark m-4 fade-in">
       <div class="card-body">
         <div class="row">
           <div class="col-12">
@@ -63,7 +63,7 @@
     <div class="comments mx-3">
       <div class="row m-0">
         <div class="col-12">
-          <div class="create-comment card bg-dark p-3">
+          <div class="create-comment card bg-dark p-3 slide-in">
             <textarea
               type="text"
               class="form-control bg-dark"

@@ -46,16 +46,4 @@ export default {
     }
   }
 }
-
-@keyframes slideInLeft {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-.slide-in {
-  animation: 0.5s ease-out 0s 1 slideInLeft;
-}
 </style>

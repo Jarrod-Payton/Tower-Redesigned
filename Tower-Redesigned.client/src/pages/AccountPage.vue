@@ -1,6 +1,6 @@
 <template>
   <div class="about" v-if="!Loading">
-    <div class="centered">
+    <div class="centered fade-in">
       <div class="card bg-dark profile">
         <div class="text-center">
           <h1>Welcome {{ Account.name }}</h1>
