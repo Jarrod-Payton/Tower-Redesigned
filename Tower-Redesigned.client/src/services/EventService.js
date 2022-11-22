@@ -27,7 +27,7 @@ class EventService {
   async createEvent(event) {
     const res = await api.post(`event`, event)
     const newEvent = await this._convertEventsToModels(res.data)
-    AppState.events = AppState.events.push(newEvent)
+    AppState.events.push(newEvent)
     Pop.toast('Success')
   }
 

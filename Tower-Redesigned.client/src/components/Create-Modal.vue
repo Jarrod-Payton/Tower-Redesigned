@@ -123,6 +123,7 @@ import { ref } from "@vue/reactivity";
 import { logger } from "../utils/Logger";
 import { modalService } from "../services/ModalService";
 import { eventService } from "../services/EventService";
+import { loadingService } from "../services/LoadingService";
 export default {
   setup() {
     const submitting = ref(false);
@@ -149,11 +150,12 @@ export default {
       },
       async createPost() {
         try {
+          loadingService.startLoading();
           form.value.type = form.value.type.toLowerCase();
-          console.log(form.value);
           submitting.value = true;
           await eventService.createEvent(form.value);
           form.value = {};
+          loadingService.stopLoading();
           modalService.toggleCreateModal();
         } catch (error) {
           submitting.value = false;

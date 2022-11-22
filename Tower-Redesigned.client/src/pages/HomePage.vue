@@ -42,7 +42,20 @@
           </div>
         </div>
       </div>
-      <div class="row mx-5">
+      <div class="row mx-5 fade-in">
+        <!-- Create Event Button -->
+        <div class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3">
+          <div class="row h-100">
+            <div class="col-12 h-100">
+              <div
+                class="tab-card h-100 bg-dark text-primary"
+                @click="create()"
+              >
+                <div class="text-card">+</div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3"
           v-for="e in Events"
@@ -64,6 +77,7 @@ import { computed, onMounted, watchEffect } from "@vue/runtime-core";
 import { AppState } from "../AppState";
 import { logger } from "../utils/Logger";
 import { loadingService } from "../services/LoadingService";
+import { modalService } from "../services/ModalService";
 export default {
   setup() {
     document.title = "Tower | Home";
@@ -92,6 +106,13 @@ export default {
       async filter(type) {
         try {
           activeFilter.value = type.toLowerCase();
+        } catch (error) {
+          logger.error(error, "error");
+        }
+      },
+      async create() {
+        try {
+          modalService.toggleCreateModal();
         } catch (error) {
           logger.error(error, "error");
         }

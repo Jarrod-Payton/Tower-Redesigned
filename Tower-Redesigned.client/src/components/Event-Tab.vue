@@ -1,25 +1,25 @@
 <template>
-  <router-link
+  <!-- <router-link
     :to="{ name: 'Event', params: { eventId: event.id } }"
     class="w-100 set-200-200 fade-in"
-  >
-    <div class="tab-card">
-      <img :src="event.coverImg" alt="Event Image" />
-      <div class="text-card">
-        <span>
-          <h4 class="event-name">
-            {{ event.name }}
-          </h4>
-          <h4 class="event-description">
-            {{ event.description }}
-          </h4>
-        </span>
-        <div class="bottom bg-danger" v-if="event.isCancelled">
-          Event Cancelled
-        </div>
+  > -->
+  <div class="tab-card">
+    <img :src="event.coverImg" alt="Event Image" />
+    <div class="text-card">
+      <span>
+        <h4 class="event-name">
+          {{ event.name }}
+        </h4>
+        <h4 class="event-description">
+          {{ event.description }}
+        </h4>
+      </span>
+      <div class="bottom bg-danger" v-if="event.isCancelled">
+        Event Cancelled
       </div>
     </div>
-  </router-link>
+  </div>
+  <!-- </router-link> -->
 </template>
 <script>
 import { Event } from "../models/Event";

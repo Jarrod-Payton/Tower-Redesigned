@@ -38,8 +38,9 @@ class EventService {
     }
     event.creatorId = userInfo.id
     event.isCanceled = false
-    const newEvent = await (await dbContext.Events.create(event)).populate({path: 'creator'})
-    return newEvent
+    const newEvent = await dbContext.Events.create(event)
+    const returned = await dbContext.Events.findById(newEvent).populate({path: 'creator'})
+    return returned
   }
 
   async editEvent(userInfo, eventId, newEvent) {
