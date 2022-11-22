@@ -5,7 +5,7 @@
         <div class="text-center">
           <h1>Welcome {{ Account.name }}</h1>
           <img
-            class="rounded profile-img"
+            class="rounded profile-img my-3"
             :src="Account.picture"
             alt="Account Picture"
           />
@@ -25,7 +25,7 @@
           <div class="row h-100">
             <div class="col-12 h-100">
               <div
-                class="tab-card h-100 bg-dark text-primary"
+                class="tab-card h-100 bg-dark text-primary fade-in"
                 @click="create()"
               >
                 <div class="text-card">+</div>
