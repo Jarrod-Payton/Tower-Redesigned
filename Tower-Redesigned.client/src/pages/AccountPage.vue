@@ -70,6 +70,8 @@ import { resetService } from "../services/ResetService";
 import { ticketService } from "../services/TicketService";
 import { commentService } from "../services/CommentService";
 import { loadingService } from "../services/LoadingService";
+import { modalService } from "../services/ModalService";
+import { logger } from "../utils/Logger";
 export default {
   setup() {
     document.title = "Tower | Account Page";
