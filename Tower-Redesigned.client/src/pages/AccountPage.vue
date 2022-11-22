@@ -1,15 +1,24 @@
 <template>
   <div class="about" v-if="!Loading">
-    <div class="profile text-center">
-      <h1>Welcome {{ Account.name }}</h1>
-      <img
-        class="rounded profile-img"
-        :src="Account.picture"
-        alt="Account Picture"
-      />
-      <p>{{ Account.email }}</p>
+    <div class="centered">
+      <div class="card bg-dark profile">
+        <div class="text-center">
+          <h1>Welcome {{ Account.name }}</h1>
+          <img
+            class="rounded profile-img"
+            :src="Account.picture"
+            alt="Account Picture"
+          />
+          <p>{{ Account.email }}</p>
+        </div>
+      </div>
     </div>
     <div class="events">
+      <div class="row mx-5">
+        <div class="col-12">
+          <h1 class="header normal-cursor">Events Your Attending</h1>
+        </div>
+      </div>
       <div class="row mx-5">
         <!-- Create Event Button -->
         <div class="col-6 col-sm-4 col-md-3 col-xxl-2 mb-3">
@@ -33,8 +42,13 @@
         </div>
       </div>
     </div>
-    <div class="comments">
-      <div class="row mt-5">
+    <div class="comments mt-5">
+      <div class="row mx-5">
+        <div class="col-12">
+          <h1 class="header normal-cursor">Comments You've Posted</h1>
+        </div>
+      </div>
+      <div class="row mx-5">
         <div class="col-12" v-for="comment in Comments" :key="comment._id">
           <router-link
             :to="{ name: 'Event', params: { eventId: comment.eventId } }"
@@ -84,8 +98,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.normal-cursor {
+  cursor: default;
+}
 .profile-img {
   max-width: 100px;
+}
+.centered {
+  display: flex;
+  justify-content: center;
+}
+.profile {
+  border-radius: 50px;
+  width: 400px;
+  padding: 30px;
+  margin-bottom: 20px;
+}
+h1.header {
+  color: rgba(255, 255, 255, 0.481);
+  border-bottom: 5px solid rgba(255, 255, 255, 0.481);
+  margin: 10px 10px;
 }
 .tab-card {
   position: relative;

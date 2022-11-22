@@ -1,14 +1,16 @@
 <template>
   <div class="comment">
-    <div class="card p-2 m-2 bg-dark">
-      {{ comment.body }}
+    <div class="card bg-dark comment-card">
+      <img
+        class="profile-pic"
+        :src="comment.creator.picture"
+        alt="Profile Picture"
+        @click="deleteComment()"
+      />
+      <p class="comment-text">
+        {{ comment.body }}
+      </p>
     </div>
-    <img
-      class="profile-pic"
-      :src="comment.creator.picture"
-      alt="Profile Picture"
-      @click="deleteComment()"
-    />
   </div>
 </template>
 <script>
@@ -39,10 +41,26 @@ export default {
 </script>
 <style scoped lang="scss">
 .comment {
-  .profile-pic {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+  margin: 5px;
+  .comment-card {
+    border-radius: 50px;
+    padding: 10px;
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+    .comment-text {
+      font-size: 21px;
+      width: 100%;
+      margin-left: 10px;
+      padding: 10px;
+    }
+    .profile-pic {
+      margin-top: 5px;
+      margin-left: 5px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
   }
 }
 </style>

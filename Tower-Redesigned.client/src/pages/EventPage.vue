@@ -9,7 +9,11 @@
                 {{ Event.name }}
               </h1>
               <h2 class="event-date">
-                {{ Event.startDate ? Event.startDate : "No Start Date Set" }}
+                {{
+                  Event.startDate
+                    ? new Date(Event.startDate).toLocaleString()
+                    : "No Start Date Set"
+                }}
               </h2>
             </div>
             <div class="body">
@@ -60,13 +64,20 @@
       <div class="row m-0">
         <div class="col-12">
           <div class="create-comment">
-            <textarea type="text" v-model="commentForm.editable.body" />
-            <button class="submit-btn btn btn-primary" @click="createComment()">
+            <textarea
+              type="text"
+              class="form-control"
+              v-model="commentForm.editable.body"
+            />
+            <button
+              class="submit-btn btn btn-primary w-100"
+              @click="createComment()"
+            >
               Post
             </button>
           </div>
         </div>
-        <div class="col-12" v-for="comment in Comments" :key="comment._id">
+        <div class="col-12 mt-3" v-for="comment in Comments" :key="comment._id">
           <Comment-Card :comment="comment" />
         </div>
       </div>
@@ -183,6 +194,7 @@ export default {
   margin-top: 20px;
   .create-comment {
     textarea {
+      border-radius: 10px;
       resize: none;
       height: 10vh;
       width: 100%;
