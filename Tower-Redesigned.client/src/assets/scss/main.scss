@@ -49,6 +49,18 @@ select {
   border-radius: 7px;
 }
 
+.flex-scrollbar {
+  overflow-y: scroll;
+}
+.flex-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.flex-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--bs-info);
+  padding-right: 100px;
+  border-radius: 7px;
+}
+
 form:invalid button[type="submit"] {
   filter: grayscale(1);
   pointer-events: none;

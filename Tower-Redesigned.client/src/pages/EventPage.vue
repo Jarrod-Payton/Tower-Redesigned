@@ -4,11 +4,11 @@
       <div class="card-body">
         <div class="row">
           <div class="col-12">
-            <div class="title p-3">
+            <div class="title bg-secondary">
               <h1 class="event-name">
                 {{ Event.name }}
               </h1>
-              <h2 class="event-date">
+              <h2 class="event-date bg-secondary">
                 {{
                   Event.startDate
                     ? new Date(Event.startDate).toLocaleString()
@@ -17,22 +17,28 @@
               </h2>
             </div>
             <div class="body">
-              <div class="cover-img">
-                <img :src="Event.coverImg" alt="" />
+              <div class="top">
+                <div class="cover-img">
+                  <img :src="Event.coverImg" alt="Event Cover Image" />
+                </div>
+                <div class="info flex-scrollbar">
+                  <h1 class="description">
+                    {{ Event.description }}
+                  </h1>
+                </div>
               </div>
-              <div class="info">
-                <h1 class="form-control">
-                  {{ Event.description }}
-                </h1>
-                <h1>
+              <div class="bottom-row">
+                <h2 class="capacity bg-secondary">
+                  <span>Remaining Tickets: </span
+                  >{{ Event.capacity - Tickets.length }} /
                   {{ Event.capacity }}
-                </h1>
-                <h1>
-                  {{ Event.location }}
-                </h1>
-                <h1>
+                </h2>
+                <h3 class="location bg-secondary">
+                  <i class="mdi mdi-map-marker" />{{ Event.location }}
+                </h3>
+                <!-- <h1>
                   {{ Event.type }}
-                </h1>
+                </h1> -->
               </div>
             </div>
             <div class="tickets">
@@ -148,27 +154,79 @@ export default {
 </script>
 <style scoped lang="scss">
 .card {
+  max-height: 800px;
   .title {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    padding: 15px 20px 5px 20px;
+    border-radius: 50px;
     .event-name {
       font-size: 34px;
+      color: whitesmoke;
     }
     .event-date {
+      color: whitesmoke;
       font-size: 18px;
+      // padding: 10px 20px 10px 20px;
+      // color: whitesmoke;
+      // border-radius: 50px;
     }
   }
   .body {
-    display: flex;
-    .cover-img {
+    margin-top: 20px;
+    .top {
+      display: flex;
       margin-top: 10px;
-      img {
-        max-width: 100%;
-        float: left;
-        padding: 0px 10px;
-        border-radius: 1%;
+
+      .cover-img {
+        width: 50%;
+        img {
+          max-width: 100%;
+          float: left;
+          padding: 0px 10px;
+          border-radius: 1%;
+        }
+      }
+      .info {
+        width: 50%;
+        height: 500px;
+        padding-right: 10px;
+        .description {
+          font-size: 25px;
+          line-break: auto;
+        }
+      }
+    }
+    .bottom-row {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .capacity {
+        font-size: 25px;
+        color: whitesmoke;
+        padding: 10px;
+        border-radius: 50px;
+        span {
+          font-size: 15px;
+          margin-right: 5px;
+        }
+      }
+
+      .location {
+        font-size: 20px;
+        padding: 10px 20px 10px 10px;
+        border-radius: 50px;
+        color: whitesmoke;
+        i {
+          margin-right: 10px;
+        }
+        h3 {
+          padding: 0;
+        }
       }
     }
   }
