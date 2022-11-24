@@ -7,6 +7,7 @@
     </div>
     <Profile-Edit-Offcanvas />
     <Create-Modal />
+    <Edit-Event-Modal />
   </main>
   <footer></footer>
 </template>

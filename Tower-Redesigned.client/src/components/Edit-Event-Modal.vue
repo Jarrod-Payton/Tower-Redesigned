@@ -1,9 +1,9 @@
 <template>
-  <div class="modal fade" id="CreateModal">
+  <div class="modal fade" id="EditModal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-info">
         <!-- I am well aware that you can put modal-header and modal-footer but I don't want the white outlines -->
-        <form @submit.prevent="createPost()">
+        <form @submit.prevent="editEvent()">
           <div class="modal-body">
             <div class="top">
               <button
@@ -73,26 +73,6 @@
                       required
                     />
                   </div>
-                  <div class="dropdown">
-                    <button
-                      class="btn btn-secondary dropdown-toggle"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                      id="EventTypeDropdown"
-                    >
-                      {{ form.type ? form.type : "Event Type" }}
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li v-for="type in eventTypes" :key="type">
-                        <a
-                          href="#"
-                          class="dropdown-item"
-                          @click="chooseType(type)"
-                          >{{ type }}</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
                 </div>
               </div>
             </div>
@@ -107,7 +87,7 @@
               <button
                 type="submit"
                 class="btn btn-primary"
-                :disabled="!form.type || submitting"
+                :disabled="submitting"
               >
                 Save Changes
               </button>
@@ -124,6 +104,8 @@ import { logger } from "../utils/Logger";
 import { modalService } from "../services/ModalService";
 import { eventService } from "../services/EventService";
 import { loadingService } from "../services/LoadingService";
+import { computed, onMounted, watchEffect } from "@vue/runtime-core";
+import { AppState } from "../AppState";
 export default {
   setup() {
     const submitting = ref(false);
@@ -135,6 +117,17 @@ export default {
       capacity: null,
       coverImg: null,
       type: null,
+    });
+    watchEffect(async () => {
+      form.value = {
+        name: AppState.openedEvent?.name,
+        description: AppState.openedEvent?.description,
+        location: AppState.openedEvent?.location,
+        startDate: AppState.openedEvent?.startDate,
+        capacity: AppState.openedEvent?.capacity,
+        coverImg: AppState.openedEvent?.coverImg,
+        type: AppState.openedEvent?.type,
+      };
     });
     const eventTypes = ref(["Concert", "Convention", "Sport", "Digital"]);
     return {
@@ -148,25 +141,26 @@ export default {
           logger.error(error, "error");
         }
       },
-      async createPost() {
+      async editEvent() {
         try {
           await loadingService.startLoading();
-          form.value.type = form.value.type.toLowerCase();
           submitting.value = true;
-          await eventService.createEvent(form.value);
+          await eventService.editEvent(AppState.openedEvent.id, form.value);
           form.value = {};
           await loadingService.stopLoading();
-          await modalService.toggleCreateEventModal();
+          await modalService.toggleEditEventModal();
         } catch (error) {
           submitting.value = false;
+          await loadingService.stopLoading();
           logger.error(error, "error");
         }
       },
+      Event: computed(() => AppState.openedEvent),
     };
   },
 };
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 .top {
   display: flex;
   justify-content: flex-end;

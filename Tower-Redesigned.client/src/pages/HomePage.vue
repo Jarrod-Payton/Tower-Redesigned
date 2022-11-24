@@ -112,7 +112,7 @@ export default {
       },
       async create() {
         try {
-          modalService.toggleCreateModal();
+          await modalService.toggleCreateEventModal();
         } catch (error) {
           logger.error(error, "error");
         }

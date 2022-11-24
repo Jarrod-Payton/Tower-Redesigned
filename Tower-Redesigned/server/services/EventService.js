@@ -54,9 +54,9 @@ class EventService {
     if (oldEvent.creatorId !== userInfo.id) {
       throw new Forbidden('Not your event')
     }
-    // if (newEvent.startDate?.getMilliseconds() < Date.now()) {
-    //   throw new BadRequest('Event Scheduled in the past')
-    // }
+    if (newEvent.startDate.getTime() < Date.now()) {
+      throw new BadRequest('Event Scheduled in the past')
+    }
     oldEvent.name = newEvent.name || oldEvent.description
     oldEvent.description = newEvent.description || oldEvent.description
     oldEvent.startDate = newEvent.startDate || oldEvent.startDate
@@ -78,8 +78,10 @@ class EventService {
     if (event.creatorId !== userInfo.id) {
       throw new Forbidden(`You aren't the host`)
     }
-    if (event.startDate.getMilliseconds() < Date.now()) {
-      throw new Forbidden(`Event Already Happened`)
+    if (event.startDate.getTime() < Date.now()) {
+      console.log('Date', Date.now())
+      console.log('Event', event.startDate.getUTCMilliseconds())
+      throw new Forbidden(`Event Already Happened ${Date.now}, "Event", ${event.startDate.getTime()}`)
     }
     event.isCanceled = true
     await dbContext.Events.findByIdAndUpdate(eventId, event)

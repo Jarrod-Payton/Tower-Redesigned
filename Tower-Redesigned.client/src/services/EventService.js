@@ -34,7 +34,6 @@ class EventService {
   async editEvent(id, event) {
     const res = await api.put(`event/${id}`, event)
     const editedEvent = await this._convertEventsToModels(res.data)
-    await this._findAndUpdateAppStateArray(id, editedEvent)
     AppState.openedEvent = editedEvent
     Pop.toast('Success')
   }

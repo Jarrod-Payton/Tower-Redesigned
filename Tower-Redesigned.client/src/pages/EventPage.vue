@@ -1,14 +1,31 @@
 <template>
   <div class="event-page" v-if="!Loading">
+    <div class="row" v-if="Event?.creator?.id === Account.id">
+      <div class="col-12">
+        <div class="d-flex admin-row justify-content-between mx-4 mt-3">
+          <button class="btn btn-info" @click="edit()">Edit</button>
+          <button
+            class="btn btn-danger"
+            @click="cancel()"
+            v-if="!Event.isCanceled"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="card bg-dark m-4 fade-in">
       <div class="card-body">
         <div class="row">
           <div class="col-12">
             <div class="title bg-secondary">
-              <h1 class="event-name">
+              <h1 class="event-name" @click="edit()">
                 {{ Event.name }}
               </h1>
-              <h2 class="event-date bg-secondary">
+              <h2 class="event-date bg-secondary" v-if="Event.isCanceled">
+                Event Canceled
+              </h2>
+              <h2 class="event-date bg-secondary" v-else>
                 {{
                   Event.startDate
                     ? new Date(Event.startDate).toLocaleString()
@@ -36,9 +53,6 @@
                 <h3 class="location bg-secondary">
                   <i class="mdi mdi-map-marker" />{{ Event.location }}
                 </h3>
-                <!-- <h1>
-                  {{ Event.type }}
-                </h1> -->
               </div>
             </div>
             <div class="tickets">
@@ -64,6 +78,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="cancelled" v-if="Event.isCanceled">
+        <h1 class="bg-danger">Cancelled</h1>
       </div>
     </div>
     <div class="comments mx-3">
@@ -102,6 +119,7 @@ import { loadingService } from "../services/LoadingService";
 import { AppState } from "../AppState";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
+import { modalService } from "../services/ModalService";
 export default {
   setup() {
     document.title = "Tower | Event";
@@ -116,6 +134,24 @@ export default {
     });
     return {
       commentForm,
+      async edit() {
+        try {
+          await modalService.toggleEditEventModal();
+        } catch (error) {
+          logger.error(error, "error");
+        }
+      },
+      async cancel() {
+        try {
+          await loadingService.startLoading();
+          await eventService.cancelEvent(AppState.openedEvent.id);
+          await loadingService.stopLoading();
+        } catch (error) {
+          await loadingService.stopLoading();
+          logger.error(error, "error");
+          Pop.error("Event AlreadyHappened");
+        }
+      },
       async createComment() {
         try {
           await commentService.createComment(commentForm.editable);
@@ -144,6 +180,7 @@ export default {
         }
       },
       Event: computed(() => AppState.openedEvent),
+      Account: computed(() => AppState.account),
       Comments: computed(() => AppState.comments),
       Tickets: computed(() => AppState.tickets),
       Attending: computed(() => AppState.attendingOpenedEvent),
@@ -154,7 +191,6 @@ export default {
 </script>
 <style scoped lang="scss">
 .card {
-  max-height: 800px;
   .title {
     display: flex;
     justify-content: space-between;
@@ -272,6 +308,20 @@ export default {
       height: 10vh;
       width: 100%;
     }
+  }
+}
+.cancelled {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(128, 128, 128, 0.435);
+  h1 {
+    transform: rotate(-35deg);
+    padding: 20px 150px;
+    border-radius: 10px;
   }
 }
 </style>

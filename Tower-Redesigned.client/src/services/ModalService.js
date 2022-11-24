@@ -7,9 +7,15 @@ class ModalService {
     ).toggle();
   }
 
-  async toggleCreateModal() {
+  async toggleCreateEventModal() {
     Modal.getOrCreateInstance(
       document.getElementById("CreateModal")
+    ).toggle()
+  }
+
+  async toggleEditEventModal() {
+    Modal.getOrCreateInstance(
+      document.getElementById("EditModal")
     ).toggle()
   }
 
